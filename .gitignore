@@ -53,3 +53,5 @@ coverage.xml
 # Sphinx documentation
 docs/_build/
 playbook.retry
+1_Schuljahr/
+2_Schuljahr/
