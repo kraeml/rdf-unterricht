@@ -1,2 +1,14 @@
 ---
 # defaults file for rdf-unterricht
+directories:
+  1_Schuljahr:
+    - bsa-linux
+    - bsa-windows
+    - dba
+    - ina
+    - tinf
+  2_Schuljahr:
+    - ais
+    - bsa-linux
+    - dba
+    - itec

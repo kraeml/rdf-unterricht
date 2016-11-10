@@ -1,7 +1,5 @@
 ---
 - hosts: local
 
-  tasks:
-    - name: Dummy
-      debug:
-        msg: "Hallo Welt"
+  roles:
+  - rdf-unterricht

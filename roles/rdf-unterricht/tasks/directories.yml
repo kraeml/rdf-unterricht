@@ -1,0 +1,6 @@
+---
+- name: Create directories
+  file:
+    path: "{{item}}"
+    state:
+  with_items: "{{rdf_directories}}"
