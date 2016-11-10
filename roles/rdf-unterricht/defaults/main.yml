@@ -1,2 +1,25 @@
 ---
 # defaults file for rdf-unterricht
+rdf_directories:
+  - name: 1_Schuljahr
+    disciplines_taught:
+    - name: bsa-linux
+      ip: 192.168.10.10
+    - name: bsa-windows
+      ip: 192.168.20.10
+    - name: dba
+      ip: 192.168.30.10
+    - name: ina
+      ip: 192.168.40.10
+    - name: tinf
+      ip: 192.168.50.10
+  - name: 2_Schuljahr
+    disciplines_taught:
+    - name: ais
+      ip: 192.168.60.10
+    - name: bsa-linux
+      ip: 192.168.70.10
+    - name: dba
+      ip: 192.168.80.10
+    - name: itec
+      ip: 192.168.90.10
