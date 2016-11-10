@@ -1,6 +1,3 @@
 ---
 # tasks file for rdf-unterricht
-# - include: directories.yml
-- name: Dummy
-  debug:
-    msg: "Die Variable directories hat {{directories}}"
+- include: directories.yml
