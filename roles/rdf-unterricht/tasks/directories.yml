@@ -1,8 +1,8 @@
 ---
 - name: Create directories
   file:
-    path: "{{item.0.name}}/{{item.1.name}}"
+    path: "{{item.0.semester}}/{{item.1.name}}"
     state: directory
   with_subelements:
-    - "{{rdf_directories}}"
+    - "{{rdf_informatik}}"
     - disciplines_taught
