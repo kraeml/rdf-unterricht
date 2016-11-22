@@ -36,28 +36,28 @@ rdf_informatik:
           host: 5000
           comment: '# For flask webserver on port 5000'
     - name: bsa1-windows
-      ip: 192.168.20.10
+      private_ip: 192.168.20.10
       default_box: kraeml/ubuntu_de
     - name: dba1
-      ip: 192.168.30.10
+      private_ip: 192.168.30.10
       default_box: kraeml/ubuntu_de
     - name: ina
-      ip: 192.168.40.10
+      private_ip: 192.168.40.10
       default_box: kraeml/ubuntu_de
     - name: tinf
-      ip: 192.168.50.10
+      private_ip: 192.168.50.10
       default_box: kraeml/ubuntu_de
   - semester: 2_Schuljahr
     disciplines_taught:
     - name: ais
-      ip: 192.168.60.10
+      private_ip: 192.168.60.10
       default_box: kraeml/ubuntu_de
     - name: bsa2-linux
-      ip: 192.168.70.10
+      private_ip: 192.168.70.10
       default_box: kraeml/ubuntu_de
     - name: dba2
-      ip: 192.168.80.10
+      private_ip: 192.168.80.10
       default_box: kraeml/ubuntu_de
     - name: itec
-      ip: 192.168.90.10
+      private_ip: 192.168.90.10
       default_box: kraeml/ubuntu_de

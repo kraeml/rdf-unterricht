@@ -2,7 +2,7 @@
 # vi: set ft=ruby :
 
 # Vagrantfile for {{year}} and lesson {{lesson.name}}
-{% if lesson.shell is none or lesson.shell == False %}
+{% if lesson.shell is not defined or lesson.shell == False %}
 
 {% else %}
 # Combined with a little bit more Ruby, this makes it very easy to embed your
@@ -40,7 +40,8 @@ Vagrant.configure("2") do |config|
     config.vbguest.auto_update = true
   end
 
-{% if lesson.forwarded_ports is not none %}
+{% if lesson.forwarded_ports is not defined %}
+{% else %}
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine. In the example below,
   # accessing "localhost:8080" will access port 80 on the guest machine.
@@ -50,49 +51,57 @@ Vagrant.configure("2") do |config|
   {% endfor %}
 {% endif %}
 
-{% if lesson.private_ip is not none %}
+{% if lesson.private_ip is not defined %}
+{% else %}
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
   config.vm.network "private_network", ip: "{{lesson.private_ip}}"
 {% endif %}
 
-{% if lesson.public_network is not none %}
+{% if lesson.public_network is not defined %}
+{% else %}
   # Create a public network, which generally matched to bridged network.
   # Bridged networks make the machine appear as another physical device on
   # your network.
   config.vm.network "public_network"
 {% endif %}
 
+{% if lesson.synced_folder is not defined %}
+{% else %}
   # Share an additional folder to the guest VM. The first argument is
   # the path on the host to the actual folder. The second argument is
   # the path on the guest to mount the folder. And the optional third
   # argument is a set of non-required options.
-  config.vm.synced_folder "projekte", "/home/vagrant/www"
+  config.vm.synced_folder "{{lesson.synced_folder.host}}", "{{lesson.synced_folder.guest}}"
+{% endif %}
 
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.
   # Example for VirtualBox:
   #
    config.vm.provider "virtualbox" do |vb|
-{% if lesson.gui is not none or lesson.gui %}
+{% if lesson.gui is not defined or lesson.gui %}
      # Display the VirtualBox GUI when booting the machine
      vb.gui = true
 {% endif %}
 
-{% if lesson.memory is not none %}
+{% if lesson.memory is not defined %}
+{% else %}
      # Customize the amount of memory on the VM:
      vb.memory = "{{lesson.memory}}"
 {% endif %}
-{% if lesson.cpus is not none %}
+{% if lesson.cpus is not defined %}
+{% else %}
      vb.customize ["modifyvm", :id, "--cpus", {{lesson.cpus}}]
 {% endif %}
      vb.name = "{{lesson.name}}"
-{% if lesson.cpu_cap is not none %}
+{% if lesson.cpu_cap is not defined %}
+{% else %}
      vb.customize ["modifyvm", :id, "--cpuexecutioncap", "{{lesson.cpu_cap}}"]
 {% endif %}
      vb.linked_clone = true if Vagrant::VERSION =~ /^1.8/
    end
-{% if lesson.shell is none or lesson.shell == False %}
+{% if lesson.shell is not defined or lesson.shell == False %}
 {% else %}
   # Enable provisioning with a shell script. Additional provisioners such as
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
