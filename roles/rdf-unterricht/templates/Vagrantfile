@@ -2,8 +2,9 @@
 # vi: set ft=ruby :
 
 # Vagrantfile for {{year}} and lesson {{lesson.name}}
+{% if lesson.shell is none or lesson.shell == False %}
 
-{% if lesson.shell %}
+{% else %}
 # Combined with a little bit more Ruby, this makes it very easy to embed your
 # shell scripts directly within your Vagrantfile.
 # I understand that if you are not familiar with Ruby, the above may seem very
@@ -14,6 +15,7 @@
 $script = <<SHELL
    sudo su vagrant -c '/usr/local/lib/npm/bin/pm2 restart all'
 SHELL
+
 {% endif %}
 # All Vagrant configuration is done below. The "2" in Vagrant.configure
 # configures the configuration version (we support older styles for
@@ -38,23 +40,23 @@ Vagrant.configure("2") do |config|
     config.vbguest.auto_update = true
   end
 
-{% if lesson.forwarded_ports %}
+{% if lesson.forwarded_ports is not none %}
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine. In the example below,
   # accessing "localhost:8080" will access port 80 on the guest machine.
-  {% for port in lesson.forwarded_ports %}
+{% for port in lesson.forwarded_ports %}
 {{port.comment}}
   config.vm.network "forwarded_port", guest: {{port.guest}}, host: {{port.host}}
   {% endfor %}
 {% endif %}
 
-{% if lesson.private_ip %}
+{% if lesson.private_ip is not none %}
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
   config.vm.network "private_network", ip: "{{lesson.private_ip}}"
 {% endif %}
 
-{% if lesson.public_network %}
+{% if lesson.public_network is not none %}
   # Create a public network, which generally matched to bridged network.
   # Bridged networks make the machine appear as another physical device on
   # your network.
@@ -72,26 +74,26 @@ Vagrant.configure("2") do |config|
   # Example for VirtualBox:
   #
    config.vm.provider "virtualbox" do |vb|
-{% if lesson.gui %}
+{% if lesson.gui is not none or lesson.gui %}
      # Display the VirtualBox GUI when booting the machine
      vb.gui = true
 {% endif %}
 
-{% if lesson.memory %}
+{% if lesson.memory is not none %}
      # Customize the amount of memory on the VM:
      vb.memory = "{{lesson.memory}}"
 {% endif %}
-{% if lesson.cpus %}
+{% if lesson.cpus is not none %}
      vb.customize ["modifyvm", :id, "--cpus", {{lesson.cpus}}]
 {% endif %}
      vb.name = "{{lesson.name}}"
-{% if lesson.cpu_cap %}
+{% if lesson.cpu_cap is not none %}
      vb.customize ["modifyvm", :id, "--cpuexecutioncap", "{{lesson.cpu_cap}}"]
 {% endif %}
      vb.linked_clone = true if Vagrant::VERSION =~ /^1.8/
    end
-
-{% if lesson.shell %}
+{% if lesson.shell is none or lesson.shell == False %}
+{% else %}
   # Enable provisioning with a shell script. Additional provisioners such as
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
   # documentation for more information about their specific syntax and use.

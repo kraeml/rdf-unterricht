@@ -1,19 +1,11 @@
 ---
-- name: First semester first lesson
-  set_fact:
-    year: "{{rdf_informatik[0].semester}}"
-    lesson: "{{rdf_informatik[0].disciplines_taught[0]}}"
-- name: Create Vagrantfile
-  debug: msg="Variable lesson {{ lesson }} and year {{ year }}"
+- include: vagrant_template.yml
+  vars:
+    year: "{{outer_item.0.semester}}"
+    lesson: "{{outer_item.1}}"
+  with_subelements:
+    - "{{rdf_informatik}}"
+    - disciplines_taught
 
-- name: Generate Vagrantfile
-  template:
-    dest: "{{year}}/{{lesson.name}}"
-    src: Vagrantfile
-
-- name: Generate synced_folders
-  file:
-    path: "{{year}}/{{lesson.name}}/{{item.host}}"
-    state: directory
-  with_items:
-    - "{{lesson.synced_folders}}"
+  loop_control:
+    loop_var: outer_item

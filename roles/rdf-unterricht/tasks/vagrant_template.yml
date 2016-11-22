@@ -1,0 +1,20 @@
+---
+- name: Create Vagrantfile
+  debug: msg="Variable lesson {{ lesson }} and year {{ year }}"
+
+- name: Generate Vagrantfile
+  template:
+    dest: "{{year}}/{{lesson.name}}"
+    src: Vagrantfile
+
+- name: Generate synced_folders
+  file:
+    path: "{{year}}/{{lesson.name}}/{{item.host}}"
+    state: directory
+  with_items:
+    - "{{lesson.synced_folders}}"
+  # ToDo eine when Bedingung einfügen falls kein synced folder
+  # The loop variable 'item' is already in use. You should set the
+  # `loop_var` value in the `loop_control` option for the task to something else
+  # to avoid variable collisions and unexpected behavior.
+  when: lesson.synced_folders
