@@ -54,9 +54,9 @@ rdf_informatik:
       synced_folders:
         - guest: /home/vagrant/www
           host: projekte
-      git:
-        - repo: https://gitlab.com/kraeml/magic-Jupyter.git
-          dest: /home/vagrant/www/magic-Jupyter
+          git:
+            - repo: https://gitlab.com/kraeml/magic-Jupyter.git
+              dest: magic-Jupyter
       forwarded_ports:
         - guest: 80
           host: 8080
