@@ -17,11 +17,9 @@
 
 - name: Clone git repositories
   git:
-    dest: "{{year}}/{{lesson.name}}/{{item.0.host}}/{{item.1.dest|default({})}}"
+    dest: "{{year}}/{{lesson.name}}/{{item.0.host}}/{{item.1.dest}"
     repo: "{{item.1.repo}}"
   with_subelements:
   - "{{lesson.synced_folders|default([])}}"
   - git
   when: lesson.synced_folders is defined
-  # ToDo Error when synced_folders exist without git entry
-  ignore_errors: yes
