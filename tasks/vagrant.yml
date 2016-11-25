@@ -6,6 +6,5 @@
   with_subelements:
     - "{{rdf_informatik}}"
     - disciplines_taught
-
   loop_control:
     loop_var: outer_item

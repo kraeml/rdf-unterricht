@@ -16,6 +16,7 @@ rdf_informatik:
       synced_folders:
         - guest: /home/vagrant/www
           host: projekte
+          git: []
       forwarded_ports:
         - guest: 80
           host: 8080
@@ -43,7 +44,39 @@ rdf_informatik:
       default_box: kraeml/ubuntu_de
     - name: ina
       private_ip: 192.168.40.10
+      hostname: ina
+      public_network: False
       default_box: kraeml/ubuntu_de
+      gui: True
+      memory: 1024
+      cpus: 2
+      cpu_cap: 75
+      shell: False
+      synced_folders:
+        - guest: /home/vagrant/www
+          host: projekte
+          git:
+            - repo: https://gitlab.com/kraeml/magic-Jupyter.git
+              dest: magic-Jupyter
+      forwarded_ports:
+        - guest: 80
+          host: 8080
+          comment: '# For webserver nginx'
+        - guest: 8888
+          host: 8888
+          comment: '# For Jupyter'
+        - guest: 8181
+          host: 8181
+          comment: '# For Cloud9'
+        - guest: 1880
+          host: 1880
+          comment: '# For node-red'
+        - guest: 3000
+          host: 3000
+          comment: '# For nodejs webserver on port 3000'
+        - guest: 5000
+          host: 5000
+          comment: '# For flask webserver on port 5000'
     - name: tinf
       private_ip: 192.168.50.10
       default_box: kraeml/ubuntu_de
@@ -52,6 +85,14 @@ rdf_informatik:
     - name: ais
       private_ip: 192.168.60.10
       default_box: kraeml/ubuntu_de
+      synced_folders:
+      - guest: /home/vagrant/www
+        host: projekte
+        git:
+        - repo: https://github.com/kraeml/AIS-projects.git
+          dest: AIS-projects
+        - repo: https://elsis.franken.de:8443/kraeml/itec-hallo-welt.git
+          dest: flask-hallo-welt
     - name: bsa2-linux
       private_ip: 192.168.70.10
       default_box: kraeml/ubuntu_de
