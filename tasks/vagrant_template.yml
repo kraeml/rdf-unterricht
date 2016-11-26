@@ -14,13 +14,19 @@
   with_subelements:
     - "{{lesson.pcs|default([])}}"
     - synced_folders
-  when: lesson.pcs is defined
+    - flags:
+      skip_missing: true
+  when: item.1 is defined
 
-- name: Clone git repositories
-  git:
-    dest: "{{year}}/{{lesson.name}}/{{item.0.host}}/{{item.1.dest}"
-    repo: "{{item.1.repo}}"
+- include: git.yml
+  vars:
+    folder: "{{year}}/{{lesson.name}}/{{item.1.host}}"
+    git: "{{item.1.git}}"
   with_subelements:
-  - "{{lesson.synced_folders|default([])}}"
-  - git
-  when: lesson.synced_folders is defined
+    - "{{lesson.pcs|default([])}}"
+    - synced_folders
+    - flags:
+      skip_missing: true
+  loop_control:
+    loop_var: git_item
+  when: item.1.git is defined

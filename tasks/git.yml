@@ -1,0 +1,8 @@
+---
+- name: Clone git repositories
+  git:
+    dest: "{{folder}}/{{item.0.host}}/{{item.dest}"
+    repo: "{{item.repo}}"
+  with_items:
+  - "{{git}}"
+  when: git is defined
