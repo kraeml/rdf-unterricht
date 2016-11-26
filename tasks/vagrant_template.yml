@@ -1,6 +1,6 @@
 ---
-#- name: Create Vagrantfile
-#  debug: msg="Variable lesson {{ lesson }} and year {{ year }}"
+- name: Debug Vagrantfile
+  debug: msg="Variable lesson {{ lesson }} and year {{ year }}"
 
 - name: Generate Vagrantfile for {{lesson.name}}
   template:
@@ -9,11 +9,12 @@
 
 - name: Generate synced_folders
   file:
-    path: "{{year}}/{{lesson.name}}/{{item.host}}"
+    path: "{{year}}/{{lesson.name}}/{{item.1.host}}"
     state: directory
-  with_items:
-    - "{{lesson.synced_folders|default([])}}"
-  when: lesson.synced_folders is defined
+  with_subelements:
+    - "{{lesson.pcs|default([])}}"
+    - synced_folders
+  when: lesson.pcs is defined
 
 - name: Clone git repositories
   git:

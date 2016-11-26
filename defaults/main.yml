@@ -4,38 +4,41 @@ rdf_informatik:
   - semester: 1_Schuljahr
     disciplines_taught:
     - name: bsa1-linux
-      hostname: bsa1-linux
-      private_ip: 192.168.10.10
-      public_network: False
       default_box: kraeml/ubuntu_de
-      gui: True
-      memory: 1024
-      cpus: 2
-      cpu_cap: 75
-      shell: False
-      synced_folders:
-        - guest: /home/vagrant/www
-          host: projekte
-          git: []
-      forwarded_ports:
-        - guest: 80
-          host: 8080
-          comment: '# For webserver nginx'
-        - guest: 8888
-          host: 8888
-          comment: '# For Jupyter'
-        - guest: 8181
-          host: 8181
-          comment: '# For Cloud9'
-        - guest: 1880
-          host: 1880
-          comment: '# For node-red'
-        - guest: 3000
-          host: 3000
-          comment: '# For nodejs webserver on port 3000'
-        - guest: 5000
-          host: 5000
-          comment: '# For flask webserver on port 5000'
+      pcs:
+      - hostname: bsa1-linux
+        vagrant_name: bsa1
+        virtualbox_name: bsa1
+        private_ip: 192.168.10.10
+        public_network: False
+        gui: True
+        memory: 1024
+        cpus: 2
+        cpu_cap: 75
+        shell: False
+        synced_folders:
+          - guest: /home/vagrant/www
+            host: projekte
+            git: []
+        forwarded_ports:
+          - guest: 80
+            host: 8080
+            comment: '# For webserver nginx'
+          - guest: 8888
+            host: 8888
+            comment: '# For Jupyter'
+          - guest: 8181
+            host: 8181
+            comment: '# For Cloud9'
+          - guest: 1880
+            host: 1880
+            comment: '# For node-red'
+          - guest: 3000
+            host: 3000
+            comment: '# For nodejs webserver on port 3000'
+          - guest: 5000
+            host: 5000
+            comment: '# For flask webserver on port 5000'
     - name: bsa1-windows
       private_ip: 192.168.20.10
       default_box: kraeml/ubuntu_de
