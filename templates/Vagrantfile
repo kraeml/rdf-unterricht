@@ -103,6 +103,9 @@ Vagrant.configure("2") do |config|
 {% if pc.private_ip is not defined %}
 {% else %}
     {{vagrant_name}}.vm.post_up_message = "The app url is: http://{{pc.private_ip}}"
+    {{vagrant_name}}.vm.post_up_message = "The mysql admin user is: root with pw: CaHrdf1617"
+    {{vagrant_name}}.vm.post_up_message = "The mysql user for db: example_db user: example_user pw: Secure-CaHrdf"
+    {{vagrant_name}}.vm.post_up_message = "Username and pw could change in upcomming versions"
 {% endif %}
   end
 {% endfor %}
