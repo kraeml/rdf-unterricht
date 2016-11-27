@@ -131,6 +131,11 @@ rdf_informatik:
           - guest: 8181
             host: 8181
             comment: '# For Cloud9'
+      - hostname: loadbalancer
+        private_network:
+        - ip: 192.168.60.254
+          vb_intnet: "Gruen"
+
     - name: bsa2-linux
       default_box: kraeml/ubuntu_de
       pcs:
