@@ -9,7 +9,8 @@ rdf_informatik:
       - hostname: bsa1-linux
         vagrant_name: bsa1
         virtualbox_name: bsa1
-        private_ip: 192.168.10.10
+        private_network:
+        - ip: 192.168.10.10
         public_network: False
         gui: True
         memory: 1024
@@ -43,17 +44,22 @@ rdf_informatik:
     - name: bsa1-windows
       default_box: kraeml/ubuntu_de
       pcs:
-      - private_ip: 192.168.20.10
+      - hostname: bsa1-windows
+        private_network:
+        - ip: 192.168.20.10
 
     - name: dba1
       default_box: kraeml/ubuntu_de
       pcs:
-      - private_ip: 192.168.30.10
+      - hostname: dba1
+        private_network:
+        - ip: 192.168.30.10
 
     - name: ina
       default_box: kraeml/ubuntu_de
       pcs:
-        - private_ip: 192.168.40.10
+        - private_network:
+          - ip: 192.168.40.10
           hostname: ina
           public_network: False
           gui: True
@@ -90,33 +96,58 @@ rdf_informatik:
     - name: tinf
       default_box: kraeml/ubuntu_de
       pcs:
-        - private_ip: 192.168.50.10
+        - private_network:
+          - ip: 192.168.50.10
+          hostname: tinf
 
   - semester: 2_Schuljahr
     disciplines_taught:
     - name: ais
-      default_box: kraeml/ubuntu_de
+      default_box: kraeml/xenial-64-de
+      default_memory: 768
+      default_cpu_cap: 50
+
       pcs:
-      - private_ip: 192.168.60.10
+      - hostname: ctl
+        box: kraeml/ubuntu_de
+        private_network:
+        - ip: 192.168.60.10
+        - ip: 192.168.60.254
+          vb_intnet: "Gruen"
+        public_network:
+          use_dhcp: True
+        gui: True
+        memory: 1024
+        cpus: 2
+        cpu_cap: 75
         synced_folders:
-        - guest: /home/vagrant/www
-          host: projekte
-          git:
-          - repo: https://github.com/kraeml/AIS-projects.git
-            dest: AIS-projects
-          - repo: https://elsis.franken.de:8443/kraeml/itec-hallo-welt.git
-            dest: flask-hallo-welt
+          - guest: /home/vagrant/projekte
+            host: projekte
+            git: []
+        forwarded_ports:
+          - guest: 8888
+            host: 8888
+            comment: '# For Jupyter'
+          - guest: 8181
+            host: 8181
+            comment: '# For Cloud9'
     - name: bsa2-linux
       default_box: kraeml/ubuntu_de
       pcs:
-      - private_ip: 192.168.70.10
+      - private_network:
+        - ip: 192.168.70.10
+        hostname: bsa2-gw
 
     - name: dba2
       default_box: kraeml/ubuntu_de
       pcs:
-      - private_ip: 192.168.80.10
+      - private_network:
+        - ip: 192.168.80.10
+        hostname: dba2
 
     - name: itec
       pcs:
-      - private_ip: 192.168.90.10
+      - private_network:
+        - ip: 192.168.90.10
+        hostname: itec
       default_box: kraeml/ubuntu_de
