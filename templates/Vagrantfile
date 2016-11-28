@@ -49,7 +49,11 @@ Vagrant.configure("2") do |config|
   # config.vm.box_check_update = true
 
   if Vagrant.has_plugin?("vagrant-vbguest") then
+  {% if DEBUG is not defined or DEBUG == True  %}
+    config.vbguest.auto_update = false
+  {% else %}
     config.vbguest.auto_update = true
+  {% endif -%}
   end
 {% for pc in lesson.pcs -%}
 {% if pc.vagrant_name is not defined -%}
@@ -58,18 +62,19 @@ Vagrant.configure("2") do |config|
   {% set vagrant_name = pc.vagrant_name -%}
 {% endif -%}
 {% if pc.virtualbox_name is not defined -%}
-  {% set virtualbox_name =  lesson.name + "_" + pc.hostname|replace("-","_") -%}
+  {% set virtualbox_name =  lesson.name|replace("-","_") + "_" + pc.hostname|replace("-","_") -%}
 {% else -%}
   {% set virtualbox_name = pc.virtualbox_name -%}
 {% endif %}
+
   config.vm.define "{{vagrant_name}}" do |{{vagrant_name}}|
-  {% if pc.box is defined -%}
-    {{vagrant_name}}.vm.box = "{{pc.box}}"
-  {% endif -%}
-  {% if pc.forwarded_ports is not defined %}
-  # No forwarded ports
-{% else -%}
     {{vagrant_name}}.vm.hostname = "{{pc.hostname}}"
+    {% if pc.box is defined -%}
+    {{vagrant_name}}.vm.box = "{{pc.box}}"
+    {% endif -%}
+    {% if pc.forwarded_ports is not defined -%}
+    # No forwarded ports
+    {% else -%}
     # Create a forwarded port mapping which allows access to a specific port
     # within the machine from a port on the host machine. In the example below,
     # accessing "localhost:8080" will access port 80 on the guest machine.
@@ -78,9 +83,8 @@ Vagrant.configure("2") do |config|
     {{vagrant_name}}.vm.network "forwarded_port", guest: {{port.guest}}, host: {{port.host}}
 {% endfor %}
 {% endif %}
-
-{% if pc.private_network is not defined %}
-  # No private Network
+{% if pc.private_network is not defined -%}
+    # No private Network
 {% else %}
 {% for private in pc.private_network %}
     # Create a private network, which allows host-only access to the machine
@@ -88,13 +92,11 @@ Vagrant.configure("2") do |config|
     {{vagrant_name}}.vm.network "private_network", ip: "{{private.ip}}"{% if private.vb_intnet is defined %},
     virtualbox__intnet: "{{private.vb_intnet}}"
     {% endif %}
-
 {% endfor %}
 {% endif %}
-
 {% if pc.public_network is not defined or pc.public_network == False %}
     # No public network
-{% else %}
+    {% else -%}
     # Create a public network, which generally matched to bridged network.
     # Bridged networks make the machine appear as another physical device on
     # your network.
@@ -104,14 +106,13 @@ Vagrant.configure("2") do |config|
 {% endif %}
 {% if pc.synced_folders is not defined %}
     # No synced folders
-{% else %}
+{% else -%}
     # Share an additional folder to the guest VM. The first argument is
     # the path on the host to the actual folder. The second argument is
     # the path on the guest to mount the folder. And the optional third
     # argument is a set of non-required options.
     {{vagrant_name}}.vm.synced_folder "{{pc.synced_folders[0].host}}", "{{pc.synced_folders[0].guest}}"
 {% endif %}
-
     # Provider-specific configuration so you can fine-tune various
     # backing providers for Vagrant. These expose provider-specific options.
     # Example for VirtualBox:
@@ -137,7 +138,6 @@ Vagrant.configure("2") do |config|
 {% else %}
       vb.customize ["modifyvm", :id, "--cpuexecutioncap", "{{pc.cpu_cap}}"]
 {% endif %}
-      vb.linked_clone = true if Vagrant::VERSION =~ /^1.8/
     end
 {% if pc.private_ip is not defined %}
 {% else %}

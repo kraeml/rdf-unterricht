@@ -112,7 +112,7 @@ rdf_informatik:
         box: kraeml/ubuntu_de
         private_network:
         - ip: 192.168.60.10
-        - ip: 192.168.60.254
+        - ip: 192.168.6.254
           vb_intnet: "Gruen"
         public_network:
           use_dhcp: True
@@ -133,9 +133,34 @@ rdf_informatik:
             comment: '# For Cloud9'
       - hostname: loadbalancer
         private_network:
-        - ip: 192.168.60.254
+        - ip: 192.168.6.2
           vb_intnet: "Gruen"
 
+      - hostname: web1
+        private_network:
+        - ip: 192.168.6.11
+          vb_intnet: "Gruen"
+
+      - hostname: web2
+        private_network:
+        - ip: 192.168.6.12
+          vb_intnet: "Gruen"
+
+      - hostname: web3
+        private_network:
+        - ip: 192.168.6.13
+          vb_intnet: "Gruen"
+
+      - hostname: db1
+        private_network:
+        - ip: 192.168.6.21
+          vb_intnet: "Gruen"
+
+      - hostname: db2
+        private_netork:
+        - ip: 192.168.6.22
+          vb_intnet: "Gruen"
+          
     - name: bsa2-linux
       default_box: kraeml/ubuntu_de
       pcs:
