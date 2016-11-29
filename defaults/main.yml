@@ -160,20 +160,39 @@ rdf_informatik:
         private_netork:
         - ip: 192.168.6.22
           vb_intnet: "Gruen"
-          
+
     - name: bsa2-linux
       default_box: kraeml/ubuntu_de
       pcs:
-      - private_network:
-        - ip: 192.168.70.10
-        hostname: bsa2-gw
+        - hostname: bsa2-gw
+          private_network:
+            - ip: 192.168.70.10
+          gui: True
+          memory: 1024
+          cpus: 2
+          cpu_cap: 75
+          forwarded_ports:
+          - guest: 80
+            host: 8080
+            comment: '# For webserver nginx'
+          - guest: 8888
+            host: 8888
+            comment: '# For Jupyter'
+          - guest: 8181
+            host: 8181
+            comment: '# For Cloud9'
+          synced_folders:
+            - guest: /home/vagrant/projekte
+              host: projekte
+              git: []
 
     - name: dba2
       default_box: kraeml/ubuntu_de
       pcs:
-      - private_network:
+      - hostname: dba2
+        private_network:
         - ip: 192.168.80.10
-        hostname: dba2
+
 
     - name: itec
       pcs:
